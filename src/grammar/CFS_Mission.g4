@@ -22,8 +22,8 @@ application
     :
         'application' app_name
         '{'
-        ( event_id )*     // Event Message ID's
-        ( command_code )* // Packet Command Codes
+        ( event_ids )*     // Event Message ID's
+        ( command_codes )* // Packet Command Codes
         ( msg )*          // Message Types
         ( version )*      // Version Number
         '}'
@@ -35,14 +35,19 @@ app_name
         ID
     ;
 
-// Event Message ID
-event_id
+// Event Message IDs
+event_ids
     :
         'eventIDs'
         '{'
-        ( id_name '=' id_value ';' )+
+        ( event_id )+
         '}'
     ;
+
+event_id
+    :
+        (id_name '=' id_value ';')
+    ;   
 
 // Event ID Name
 id_name
@@ -56,13 +61,18 @@ id_value
         INT
     ;
 
-// Packet Command Code
-command_code
+// Packet Command Codes
+command_codes
     :
         'commandCodes'
         '{'
-        ( cmd_name '=' cmd_value ';' )+
+        ( command_code )+
         '}'
+    ;
+
+command_code
+    :
+         ( cmd_name '=' cmd_value ';' )
     ;
 
 // Command Code Name
@@ -141,7 +151,7 @@ version_value
 ID
     :   
         ('a'..'z' | 'A'..'Z' | '_')
-        ('a'..'z' | 'A'..'Z' | '0'..'9' | '_' )*
+        ('a'..'z' | 'A'..'Z' | '0'..'9' | '_' | '[' | ']' )*
     ;
 
 // A digit - any number between 0 and 9
