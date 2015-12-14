@@ -70,6 +70,11 @@ class CFS_MissionVisitor(ParseTreeVisitor):
         pass
 
 
+    # Visit a parse tree produced by CFS_MissionParser#command_codes.
+    def visitCommand_codes(self, ctx):
+        pass
+
+
     # Visit a parse tree produced by CFS_MissionParser#start.
     def visitStart(self, ctx):
         pass
@@ -92,6 +97,11 @@ class CFS_MissionVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by CFS_MissionParser#version_value.
     def visitVersion_value(self, ctx):
+        pass
+
+
+    # Visit a parse tree produced by CFS_MissionParser#event_ids.
+    def visitEvent_ids(self, ctx):
         pass
 
 

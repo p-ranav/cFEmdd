@@ -121,6 +121,15 @@ class CFS_MissionListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by CFS_MissionParser#command_codes.
+    def enterCommand_codes(self, ctx):
+        pass
+
+    # Exit a parse tree produced by CFS_MissionParser#command_codes.
+    def exitCommand_codes(self, ctx):
+        pass
+
+
     # Enter a parse tree produced by CFS_MissionParser#start.
     def enterStart(self, ctx):
         pass
@@ -163,6 +172,15 @@ class CFS_MissionListener(ParseTreeListener):
 
     # Exit a parse tree produced by CFS_MissionParser#version_value.
     def exitVersion_value(self, ctx):
+        pass
+
+
+    # Enter a parse tree produced by CFS_MissionParser#event_ids.
+    def enterEvent_ids(self, ctx):
+        pass
+
+    # Exit a parse tree produced by CFS_MissionParser#event_ids.
+    def exitEvent_ids(self, ctx):
         pass
 
 

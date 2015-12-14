@@ -5,8 +5,9 @@ __maintainer__ = "Pranav Srinivas Kumar"
 __email__ = "pkumar@isis.vanderbilt.edu"
 __status__ = "Production"
 
-from cfs import CFS_Mission
+from mission import CFS_Mission
 
 if __name__ == "__main__":
     mission = CFS_Mission('/home/jeb/Desktop/missionxyz.cfs')
     mission.parse_model()
+    mission.print_model()
