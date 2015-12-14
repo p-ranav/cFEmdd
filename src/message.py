@@ -12,4 +12,6 @@ class cFE_Message():
         self.kind = "Message"
         self.name = ""
         self.msgtype = ""
+        self.comment = ""
         self.fields = OrderedDict()
+        self.fields_list = []

@@ -130,6 +130,15 @@ class CFS_MissionListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by CFS_MissionParser#versions.
+    def enterVersions(self, ctx):
+        pass
+
+    # Exit a parse tree produced by CFS_MissionParser#versions.
+    def exitVersions(self, ctx):
+        pass
+
+
     # Enter a parse tree produced by CFS_MissionParser#start.
     def enterStart(self, ctx):
         pass

@@ -90,6 +90,17 @@ class cFE_Application_Builder(CFS_MissionListener):
 
     def enterMsgtype(self, ctx):
         self.message.msgtype = ctx.getText()
+        if self.message.msgtype == "table":
+            self.message.comment = "Definition of Table Data Structure"
+        elif self.message.msgtype == "critical":
+            self.message.comment = "Type definition Critical Data Store"
+        elif self.message.msgtype == "command":
+            self.message.comment\
+                ="Type definition (generic \"no arguments\" command)"
+        elif self.message.msgtype == "hosuekeeping":
+            self.message.comment = "Type definition (QQ housekeeping)"
+        elif self.message.msgtype == "global":
+            self.message.comment = "Type definition (QQ app global data)"
 
     def enterField(self, ctx):
         datatype = ""

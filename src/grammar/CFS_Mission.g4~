@@ -22,10 +22,10 @@ application
     :
         'application' app_name
         '{'
-        ( event_ids )*     // Event Message ID's
-        ( command_codes )* // Packet Command Codes
+        ( event_id )*     // Event Message ID's
+        ( command_code )* // Packet Command Codes
         ( msg )*          // Message Types
-        ( versions )*      // Version Number
+        ( version )*      // Version Number
         '}'
     ;
 
@@ -35,19 +35,14 @@ app_name
         ID
     ;
 
-// Event Message IDs
-event_ids
+// Event Message ID
+event_id
     :
         'eventIDs'
         '{'
-        ( event_id )+
+        ( id_name '=' id_value ';' )+
         '}'
     ;
-
-event_id
-    :
-        (id_name '=' id_value ';')
-    ;   
 
 // Event ID Name
 id_name
@@ -61,18 +56,13 @@ id_value
         INT
     ;
 
-// Packet Command Codes
-command_codes
+// Packet Command Code
+command_code
     :
         'commandCodes'
         '{'
-        ( command_code )+
+        ( cmd_name '=' cmd_value ';' )+
         '}'
-    ;
-
-command_code
-    :
-         ( cmd_name '=' cmd_value ';' )
     ;
 
 // Command Code Name
@@ -125,17 +115,12 @@ fieldname
     ;
 
 // Version
-versions
+version
     :
         'version'
         '{'
-        ( version )+
+        ( version_name '=' version_value ';' )+
         '}'
-    ;
-
-version
-    :
-        ( version_name '=' version_value ';' )
     ;
 
 // Version Name
@@ -156,7 +141,7 @@ version_value
 ID
     :   
         ('a'..'z' | 'A'..'Z' | '_')
-        ('a'..'z' | 'A'..'Z' | '0'..'9' | '_' | '[' | ']' )*
+        ('a'..'z' | 'A'..'Z' | '0'..'9' | '_' )*
     ;
 
 // A digit - any number between 0 and 9

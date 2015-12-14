@@ -7,6 +7,7 @@ __status__ = "Production"
 
 import sys, os, inspect, shutil, errno
 import builder
+import generator
 
 class CFS_Mission():
     def __init__(self, model):
@@ -23,6 +24,7 @@ class CFS_Mission():
         self.prepare_dir()
 
         self.builder = builder.cFE_Application_Builder(self)
+        self.generator = None
 
     def prepare_dir(self):
         self.mission_home = os.path.join(self.path, self.name)
@@ -60,6 +62,8 @@ class CFS_Mission():
         self.apps_dir = os.path.join(self.mission_home, "apps")
         if not os.path.exists(self.apps_dir):
             os.makedirs(self.apps_dir)
+        if not os.path.exists(os.path.join(self.apps_dir, "inc")):
+            os.makedirs(os.path.join(self.apps_dir, "inc"))
         if not os.path.exists(os.path.join(self.mission_home, "build")):
             os.makedirs(os.path.join(self.mission_home, "build"))
         
@@ -120,3 +124,7 @@ class CFS_Mission():
                 print 'Version:'
                 for key, value in app.version.items():
                     print key, value
+
+    def generate_apps(self):
+        self.generator = generator.cFE_Application_Generator()
+        self.generator.generate(self)

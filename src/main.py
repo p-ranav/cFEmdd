@@ -11,3 +11,4 @@ if __name__ == "__main__":
     mission = CFS_Mission('/home/jeb/Desktop/missionxyz.cfs')
     mission.parse_model()
     mission.print_model()
+    mission.generate_apps()

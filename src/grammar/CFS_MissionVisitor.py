@@ -75,6 +75,11 @@ class CFS_MissionVisitor(ParseTreeVisitor):
         pass
 
 
+    # Visit a parse tree produced by CFS_MissionParser#versions.
+    def visitVersions(self, ctx):
+        pass
+
+
     # Visit a parse tree produced by CFS_MissionParser#start.
     def visitStart(self, ctx):
         pass
