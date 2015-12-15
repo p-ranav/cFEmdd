@@ -12,8 +12,8 @@
 \#ifndef _${application_name}_version_h_
 \#define _${application_name}_version_h_
 
-#for $key, $value in ${version.items()}
-\#define $key$value
+#for $subversion in $version_list
+\#define $subversion
 #end for      
 
 \#endif /* _${application_name}_version_h_ */

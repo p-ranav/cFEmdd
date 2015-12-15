@@ -17,7 +17,6 @@
 #define QQ_RESET_INF_EID    3
 
 #endif /* _sample_app_events_h_ */
-
 /************************/
 /*  End of File Comment */
 /************************/

@@ -14,7 +14,6 @@
 
 
 #endif /* _sample_app_2_events_h_ */
-
 /************************/
 /*  End of File Comment */
 /************************/

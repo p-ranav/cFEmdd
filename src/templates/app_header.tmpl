@@ -7,25 +7,25 @@
 **
 *******************************************************************************/
 
-#ifndef _${application_name}_h_
-#define _${application_name}_h_
+\#ifndef _${application_name}_h_
+\#define _${application_name}_h_
 
 /*
 ** Required header files.
 */
-#include "cfe.h"
-#include "cfe_error.h"
-#include "cfe_evs.h"
-#include "cfe_sb.h"
-#include "cfe_es.h"
+\#include "cfe.h"
+\#include "cfe_error.h"
+\#include "cfe_evs.h"
+\#include "cfe_sb.h"
+\#include "cfe_es.h"
 
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
+\#include <string.h>
+\#include <errno.h>
+\#include <unistd.h>
 
 /***********************************************************************/
 
-#define SAMPLE_PIPE_DEPTH                     32
+\#define ${application_name_caps}_PIPE_DEPTH                     32
 
 /************************************************************************
 ** Type Definitions
@@ -35,16 +35,16 @@
 /*
 ** Local function prototypes.
 **
-** Note: Except for the entry point (SAMPLE_AppMain), these
+** Note: Except for the entry point (${application_name_caps}_AppMain), these
 **       functions are not called from any other source module.
 */
-void SAMPLE_AppMain(void);
-void SAMPLE_AppInit(void);
-void SAMPLE_ProcessCommandPacket(void);
-void SAMPLE_ProcessGroundCommand(void);
-void SAMPLE_ReportHousekeeping(void);
-void SAMPLE_ResetCounters(void);
+void ${application_name_caps}_AppMain(void);
+void ${application_name_caps}_AppInit(void);
+void ${application_name_caps}_ProcessCommandPacket(void);
+void ${application_name_caps}_ProcessGroundCommand(void);
+void ${application_name_caps}_ReportHousekeeping(void);
+void ${application_name_caps}_ResetCounters(void);
 
-boolean SAMPLE_VerifyCmdLength(CFE_SB_MsgPtr_t msg, uint16 ExpectedLength);
+boolean ${application_name_caps}_VerifyCmdLength(CFE_SB_MsgPtr_t msg, uint16 ExpectedLength);
 
-#endif /* _sample_app_h_ */
+#endif /* _${application_name}_h_ */

@@ -26,7 +26,7 @@
 */
 typedef struct
 {
-#for $field in ${msg.fields_list}
+#for $field in $msg.fields_list
     $field[0];
 #end for
 } ${msg.name};

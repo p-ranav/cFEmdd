@@ -24,7 +24,7 @@
 */
 typedef struct
 {
-    uint8            CmdHeader[CFS_SB_CMD_HDR_SIZE];
+    u;
 } QQ_NoArgsCmd_t;
 
 /*************************************************************************/
