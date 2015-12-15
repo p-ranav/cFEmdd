@@ -1,0 +1,72 @@
+/*
+ * Sample CFS Mission Model
+ * Mission: missionxyz
+ */
+ 
+application sample_app
+{
+  eventIDs
+  {
+    QQ_INIT_INF_EID = 1;
+    QQ_NOOP_INF_EID = 2;
+    QQ_RESET_INF_EID = 3;
+  }
+
+  commandCodes
+  {
+    QQ_NOOP_CC = 1;
+    QQ_RESET_CC = 2;
+  }
+
+  table msg QQ_MyFirstTable_t
+  {
+    uint8 TblElement1;
+    uint16 TblElement2;
+    uint32 TblElement3;
+  }
+
+  critical msg QQ_CdsDataType_t
+  {
+    uint32 DataPtOne;
+    uint32 DataPtTwo;
+    uint32 DataPtThree;
+    uint32 DataPtFour;
+    uint32 DataPtFive;
+  }
+
+  command msg QQ_NoArgsCmd_t
+  {
+    uint8 CmdHeader[CFS_SB_CMD_HDR_SIZE];
+  }
+
+  version
+  {
+    SAMPLE_APP_MAJOR_VERSION = 1;
+    SAMPLE_APP_MINOR_VERSION = 0;
+    SAMPLE_APP_REVISION = 0;
+    SAMPLE_APP_MISSION_REV = 0;
+  }
+}
+
+
+application sample_app_2
+{
+  commandCodes
+  {
+    QQ_NOOP_CC = 1;
+    QQ_RESET_CC = 2;
+  }
+
+  command msg QQ_NoArgsCmd_t
+  {
+    uint8 CmdHeader[CFS_SB_CMD_HDR_SIZE];
+  }
+
+  version
+  {
+    SAMPLE_APP_2_MAJOR_VERSION = 1;
+    SAMPLE_APP_2_MINOR_VERSION = 0;
+    SAMPLE_APP_2_REVISION = 0;
+    SAMPLE_APP_2_MISSION_REV = 0;
+  }
+}
