@@ -8,7 +8,7 @@ __status__ = "Production"
 from mission import CFS_Mission
 
 if __name__ == "__main__":
-    mission = CFS_Mission('/home/jeb/Desktop/missionxyz.cfs')
+    mission = CFS_Mission('../samples/missionxyz.cfs')
     mission.parse_model()
     mission.print_model()
     mission.generate_apps()
