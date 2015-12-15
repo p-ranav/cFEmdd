@@ -98,9 +98,9 @@ class cFE_Application_Builder(CFS_MissionListener):
             self.message.comment\
                 ="Type definition (generic \"no arguments\" command)"
         elif self.message.msgtype == "hosuekeeping":
-            self.message.comment = "Type definition (QQ housekeeping)"
+            self.message.comment = "Type definition (housekeeping)"
         elif self.message.msgtype == "global":
-            self.message.comment = "Type definition (QQ app global data)"
+            self.message.comment = "Type definition (global data)"
 
     def enterField(self, ctx):
         datatype = ""
