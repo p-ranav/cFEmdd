@@ -27,7 +27,7 @@
 typedef struct
 {
 #for $field in $msg.fields_list
-    $field[0];
+    $field;
 #end for
 } ${msg.name};
 

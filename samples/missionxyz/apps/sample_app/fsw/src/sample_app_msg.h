@@ -24,9 +24,9 @@
 */
 typedef struct
 {
-    u;
-    u;
-    u;
+    uint8             TblElement1;
+    uint16            TblElement2;
+    uint32            TblElement3;
 } QQ_MyFirstTable_t;
 
 /*************************************************************************/
@@ -37,7 +37,7 @@ typedef struct
 */
 typedef struct
 {
-    u;
+    uint32            DataPtFive;
 } QQ_CdsDataType_t;
 
 /*************************************************************************/
@@ -48,7 +48,7 @@ typedef struct
 */
 typedef struct
 {
-    u;
+    uint8            CmdHeader[CFS_SB_CMD_HDR_SIZE];
 } QQ_NoArgsCmd_t;
 
 /*************************************************************************/
