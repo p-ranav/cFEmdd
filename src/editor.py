@@ -12,6 +12,48 @@ from ext import *
 from mission import CFS_Mission
 import syntax
 
+import logging
+
+class QtHandler(logging.Handler):
+    def __init__(self):
+        logging.Handler.__init__(self)
+    def emit(self, record):
+        record = self.format(record)
+        if record: XStream.stdout().write('%s\n'%record)
+        # originally: XStream.stdout().write("{}\n".format(record))
+
+
+logger = logging.getLogger(__name__)
+handler = QtHandler()
+handler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
+
+
+class XStream(QtCore.QObject):
+    _stdout = None
+    _stderr = None
+    messageWritten = QtCore.pyqtSignal(str)
+    def flush( self ):
+        pass
+    def fileno( self ):
+        return -1
+    def write( self, msg ):
+        if ( not self.signalsBlocked() ):
+            self.messageWritten.emit(unicode(msg))
+    @staticmethod
+    def stdout():
+        if ( not XStream._stdout ):
+            XStream._stdout = XStream()
+            sys.stdout = XStream._stdout
+        return XStream._stdout
+    @staticmethod
+    def stderr():
+        if ( not XStream._stderr ):
+            XStream._stderr = XStream()
+            sys.stderr = XStream._stderr
+        return XStream._stderr
+
 class CFSEdit(QtGui.QTextEdit):
     def __init__(self, parent=None):
         super(CFSEdit, self).__init__(parent)
@@ -24,7 +66,7 @@ class CFSEdit(QtGui.QTextEdit):
         self.model = QtGui.QStringListModel()
         self.completer.setModel(self.model)
         self.model.setStringList(
-            ["application", "apply", "eventIDs", "commandCodes", "msg", "table", 
+            ["application", "eventIDs", "commandCodes", "msg", "table", "version" 
              'uint8', 'uint16', 'uint32', 'uint64', 'char'
              'CFE_ES_NoArgsCmd_t', 'CFE_ES_RestartCmd_t', 
              'CFE_ES_ShellCmd_t', 'CFE_ES_QueryAllCmd_t', 
@@ -245,7 +287,7 @@ class Main(QtGui.QMainWindow):
         self.statusbar = self.statusBar()
         
         # x and y coordinates on the screen, width, height
-        self.setGeometry(100,100,1030,800)
+        self.setGeometry(100,100,1920,1080)
         
         self.setWindowTitle("CFSEditor")
         self.text.setTabStopWidth(33)
@@ -255,9 +297,32 @@ class Main(QtGui.QMainWindow):
 
         self.highlight = syntax.CFSHighlighter(self.text.document())
 
-        font = QtGui.QFont("Ubuntu",15,QtGui.QFont.Normal) 
+        # Prepare Layout
+        layout = QtGui.QVBoxLayout(self)
+
+        # MAIN TEXT WIDGET
+        font = QtGui.QFont("Monospace", 10, QtGui.QFont.Normal) 
         font.setLetterSpacing(QtGui.QFont.PercentageSpacing, 120)
         self.text.setCurrentFont(font)
+        self.text.setGeometry(10, 50, 940, 590)
+        layout.addWidget(self.text)
+
+        # XTERM WIDGET
+        self.process = QtCore.QProcess(self)
+        self.terminal = QtGui.QWidget(self)
+        self.terminal.setGeometry(10, 650, 1855, 280)
+        layout.addWidget(self.terminal)
+        self.process.start(
+                'xterm',['-into', str(self.terminal.winId()), 
+                         '-geometry', '1855x300+10+10', 
+                         '-fa', 'Monospace', '-fs', '10'])
+
+        # CONSOLE WIDGET
+        self.console = QtGui.QTextBrowser(self)
+        self.console.setGeometry(960, 50, 905, 590)
+        layout.addWidget(self.console)
+        XStream.stdout().messageWritten.connect(self.console.insertPlainText)
+        XStream.stderr().messageWritten.connect(self.console.insertPlainText)
 
     def new(self):
 
@@ -275,6 +340,7 @@ class Main(QtGui.QMainWindow):
                 font = QtGui.QFont("Ubuntu",15,QtGui.QFont.Normal)    
                 self.text.setCurrentFont(font)
                 self.statusbar.showMessage("Opened Mission: {}".format(self.filename))
+                logger.info("Opened Mission: {}".format(self.filename))
 
     def save(self):
         
@@ -291,6 +357,7 @@ class Main(QtGui.QMainWindow):
         with open(self.filename,"wt") as file:
             file.write(self.text.toPlainText())
             self.statusbar.showMessage("Saved Mission: {}".format(self.filename))
+            logger.info("Saved Mission: {}".format(self.filename))
 
         self.changesSaved = True
 

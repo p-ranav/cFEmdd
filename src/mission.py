@@ -32,12 +32,16 @@ class CFS_Mission():
             os.makedirs(self.mission_home)
         self.working_dir = os.path.dirname(os.path.realpath(__file__))
         self.cfe_tree = (os.path.join(self.working_dir, "cfe"))
+        self.build_tree = (os.path.join(self.working_dir, "build"))
         self.osal_tree = (os.path.join(self.working_dir, "osal"))
         self.psp_tree = (os.path.join(self.working_dir, "psp"))
         self.docs_tree = (os.path.join(self.working_dir, "docs"))
         if not os.path.exists(os.path.join(self.mission_home, "cfe")):
             self.copy_dir_tree(self.cfe_tree,
                                os.path.join(self.mission_home, "cfe"))
+        if not os.path.exists(os.path.join(self.mission_home, "build")):
+            self.copy_dir_tree(self.build_tree,
+                               os.path.join(self.mission_home, "build"))
         if not os.path.exists(os.path.join(self.mission_home, "osal")):
             self.copy_dir_tree(self.osal_tree,
                                os.path.join(self.mission_home, "osal"))
@@ -64,8 +68,6 @@ class CFS_Mission():
             os.makedirs(self.apps_dir)
         if not os.path.exists(os.path.join(self.apps_dir, "inc")):
             os.makedirs(os.path.join(self.apps_dir, "inc"))
-        if not os.path.exists(os.path.join(self.mission_home, "build")):
-            os.makedirs(os.path.join(self.mission_home, "build"))
         
     def copy_dir_tree(self, src, dest):
         try:
