@@ -320,6 +320,7 @@ class Main(QtGui.QMainWindow):
         # CONSOLE WIDGET
         self.console = QtGui.QTextBrowser(self)
         self.console.setGeometry(960, 50, 905, 590)
+        self.console.setCurrentFont(font)
         layout.addWidget(self.console)
         XStream.stdout().messageWritten.connect(self.console.insertPlainText)
         XStream.stderr().messageWritten.connect(self.console.insertPlainText)
