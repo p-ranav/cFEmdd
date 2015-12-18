@@ -347,22 +347,22 @@ class Main(QtGui.QMainWindow):
         
         # Only open dialog if there is no filename yet
         if not self.filename:
-            self.filename = QtGui.QFileDialog.getSaveFileName(self, 'Save File')
+            self.filename = QtGui.QFileDialog.getSaveFileName(self, 'Save Mission')
 
         # Append extension if not there yet
         if not str(self.filename).endswith(".cfs"):
             self.filename += ".cfs"
 
-        # We just store the contents of the text file along with the
-        # format in html, which Qt does in a very nice way for us
-        with open(self.filename,"wt") as file:
-            file.write(self.text.toPlainText())
-            self.statusbar.showMessage("Saved Mission: {}".format(self.filename))
-            logger.info("Saved Mission: {}".format(self.filename))
+        if (self.filename != ".cfs"):
+            with open(self.filename,"wt") as file:
+                file.write(self.text.toPlainText())
+                self.statusbar.showMessage("Saved Mission: {}".format(self.filename))
+                logger.info("Saved Mission: {}".format(self.filename))
 
         self.changesSaved = True
 
     def preview(self):
+        logger.info("Initiating Print Preview")
         
         # Open preview dialog
         preview = QtGui.QPrintPreviewDialog()
@@ -373,6 +373,7 @@ class Main(QtGui.QMainWindow):
         preview.exec_()
 
     def printMission(self):
+        logger.info("Initiating Print...")
 
         # Open printing dialog
         dialog = QtGui.QPrintDialog()
@@ -381,17 +382,18 @@ class Main(QtGui.QMainWindow):
             self.text.document().print_(dialog.printer())
 
     def generate(self):
+        logger.info("Generating Mission Directory...")
         mission = CFS_Mission(str(self.filename))
         mission.parse_model()
-        mission.print_model()
         mission.generate_apps()
+        logger.info("Mission Directory: {}".format(str(self.filename).split('.cfs')[0]))
 
     def openmissiondir(self):
         if (self.filename != ""):
             path, name = os.path.split(str(self.filename))
             os.system('xdg-open "%s"' % path)
         else:
-            print 'No Active Mission'
+            logger.error('No Active Mission')
 
     def cursorPosition(self):
                 

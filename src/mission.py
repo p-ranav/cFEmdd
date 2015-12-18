@@ -76,7 +76,7 @@ class CFS_Mission():
             if e.errno == errno.ENOTDIR:
                 shutil.copy(src, dest)
             else:
-                print("wARNING::Directory not copied::%s" % e)
+                print ("WARNING::Directory not copied::%s" % e)
               
     def copy_file(self, src, dest):
         try:
@@ -101,31 +101,6 @@ class CFS_Mission():
         walker.walk(self.builder, tree)
 
         self.apps = self.builder.apps
-
-    def print_model(self):
-        print "Mission: ", self.name
-        print "Path: ", self.path
-        for app in self.apps:
-            print '--------------------------------------------------'
-            print 'Application: ', app.name
-            if app.event_ids != {}:
-                print 'EventIDs:'
-                for key, value in app.event_ids.items():
-                    print key, value
-            if app.command_codes != {}:
-                print 'CommandCodes:'
-                for key, value in app.command_codes.items():
-                    print key, value
-            if app.messages != []:
-                print 'Messages:'
-                for msg in app.messages:
-                    print '  ' + 'Message: ' + msg.msgtype + msg.name
-                    for fieldtype, fieldname in msg.fields.items():
-                        print '    ' + fieldtype + ' ' + fieldname
-            if app.version != {}:
-                print 'Version:'
-                for key, value in app.version.items():
-                    print key, value
 
     def generate_apps(self):
         self.generator = generator.cFE_Application_Generator()

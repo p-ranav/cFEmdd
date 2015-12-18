@@ -30,8 +30,6 @@ from app_header import *
 
 class cFE_Application_Generator:
     def generate(self, mission):
-        print '--------------------------------------------------'
-        print 'Generating cFE Application Template'
         self.mission_home = mission.mission_home
         self.apps_dir = os.path.join(self.mission_home, 'apps')
         for app in mission.apps:
