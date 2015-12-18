@@ -24,7 +24,8 @@ def format(color, style=''):
 # Syntax styles that can be shared by all languages
 STYLES = {
     'keyword': format('blue'),
-    'operator': format('red'),
+    'keyword2': format('darkMagenta'),
+    'datatype': format('darkRed'),
     'brace': format('darkGray'),
     'defclass': format('black', 'bold'),
     'string': format('magenta'),
@@ -35,11 +36,12 @@ STYLES = {
 }
 
 
-class PythonHighlighter (QSyntaxHighlighter):
-    """Syntax highlighter for the Python language.
+class CFSHighlighter (QSyntaxHighlighter):
+    """Syntax highlighter for the CFS Mission language.
     """
-    # Python keywords
+    # CFS Mission keywords
     keywords = [
+        'application', 'eventIDs', 'commandCodes', 'msg',
         'and', 'assert', 'break', 'class', 'continue', 'def',
         'del', 'elif', 'else', 'except', 'exec', 'finally',
         'for', 'from', 'global', 'if', 'import', 'in',
@@ -48,20 +50,30 @@ class PythonHighlighter (QSyntaxHighlighter):
         'None', 'True', 'False',
     ]
 
-    # Python operators
-    operators = [
-        '=',
-        # Comparison
-        '==', '!=', '<', '<=', '>', '>=',
-        # Arithmetic
-        '\+', '-', '\*', '/', '//', '\%', '\*\*',
-        # In-place
-        '\+=', '-=', '\*=', '/=', '\%=',
-        # Bitwise
-        '\^', '\|', '\&', '\~', '>>', '<<',
+    # CFS Message Type Keywords
+    keywords2 = [
+        'table', 'critical', 'command', 'housekeeping', 'global'
     ]
 
-    # Python braces
+    # CFS Datatypes
+    datatypes = [
+        'uint8', 'uint16', 'uint32', 'uint64', 'char'
+        'CFE_ES_NoArgsCmd_t', 'CFE_ES_RestartCmd_t', 
+        'CFE_ES_ShellCmd_t', 'CFE_ES_QueryAllCmd_t', 
+        'CFE_ES_QueryAllTasksCmd_t', 'CFE_ES_WriteSyslogCmd_t',
+        'CFE_ES_WriteERlogCmd_t', 'CFE_ES_OverWriteSysLogCmd_t', 
+        'CFE_ES_StartAppCmd_t', 'CFE_ES_AppNameCmd_t', 
+        'CFE_ES_AppReloadCmd_t', 'CFE_ES_SetMaxPRCountCmd_t',
+        'CFE_ES_DeleteCDSCmd_t', 'CFE_ES_PerfStartCmd_t',
+        'CFE_ES_PerfStopCmd_t', 'CFE_ES_PerfSetFilterMaskCmd_t',
+        'CFE_ES_PerfSetTrigMaskCmd_t', 'CFE_ES_TlmPoolStatsCmd_t', 
+        'CFE_ES_DumpCDSRegCmd_t', 'CFE_ES_OneAppTlm_t', 
+        'CFE_ES_PoolStatsTlm_t', 'CFE_ES_MemHandle_t', 
+        'CFE_ES_MemPoolStats_t', 'CFE_ES_HkPacket_t', 
+        'CFE_ES_ShellPacket_t'
+    ]
+
+    # Braces
     braces = [
         '\{', '\}', '\(', '\)', '\[', '\]',
     ]
@@ -78,11 +90,13 @@ class PythonHighlighter (QSyntaxHighlighter):
 
         # Keyword, operator, and brace rules
         rules += [(r'\b%s\b' % w, 0, STYLES['keyword'])
-            for w in PythonHighlighter.keywords]
-        rules += [(r'%s' % o, 0, STYLES['operator'])
-            for o in PythonHighlighter.operators]
+            for w in CFSHighlighter.keywords]
+        rules += [(r'\b%s\b' % w, 0, STYLES['keyword2'])
+            for w in CFSHighlighter.keywords2]        
+        rules += [(r'\b%s\b' % w, 0, STYLES['datatype'])
+            for w in CFSHighlighter.datatypes]        
         rules += [(r'%s' % b, 0, STYLES['brace'])
-            for b in PythonHighlighter.braces]
+            for b in CFSHighlighter.braces]
 
         # All other rules
         rules += [
@@ -99,8 +113,13 @@ class PythonHighlighter (QSyntaxHighlighter):
             # 'class' followed by an identifier
             (r'\bclass\b\s*(\w+)', 1, STYLES['defclass']),
 
-            # From '#' until a newline
-            (r'#[^\n]*', 0, STYLES['comment']),
+            # From '//' until a newline
+            (r'//[^\n]*', 0, STYLES['comment']),
+
+            # Multi-line comments - This needs to be a single rule
+            (r'/\*', 0, STYLES['comment']),
+            (r'\*[^\n]*', 0, STYLES['comment']),
+            (r'\*/', 0, STYLES['comment']),
 
             # Numeric literals
             (r'\b[+-]?[0-9]+[lL]?\b', 0, STYLES['numbers']),

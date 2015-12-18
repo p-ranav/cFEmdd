@@ -5,7 +5,7 @@ __maintainer__ = "Pranav Srinivas Kumar"
 __email__ = "pkumar@isis.vanderbilt.edu"
 __status__ = "Production"
 
-import sys
+import os, sys
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
 from ext import *
@@ -23,10 +23,24 @@ class CFSEdit(QtGui.QTextEdit):
 
         self.model = QtGui.QStringListModel()
         self.completer.setModel(self.model)
-        self.model.setStringList(["application", "apply", "eventIDs", "commandCodes", "msg", "table"])
+        self.model.setStringList(
+            ["application", "apply", "eventIDs", "commandCodes", "msg", "table", 
+             'uint8', 'uint16', 'uint32', 'uint64', 'char'
+             'CFE_ES_NoArgsCmd_t', 'CFE_ES_RestartCmd_t', 
+             'CFE_ES_ShellCmd_t', 'CFE_ES_QueryAllCmd_t', 
+             'CFE_ES_QueryAllTasksCmd_t', 'CFE_ES_WriteSyslogCmd_t',
+             'CFE_ES_WriteERlogCmd_t', 'CFE_ES_OverWriteSysLogCmd_t', 
+             'CFE_ES_StartAppCmd_t', 'CFE_ES_AppNameCmd_t', 
+             'CFE_ES_AppReloadCmd_t', 'CFE_ES_SetMaxPRCountCmd_t',
+             'CFE_ES_DeleteCDSCmd_t', 'CFE_ES_PerfStartCmd_t',
+             'CFE_ES_PerfStopCmd_t', 'CFE_ES_PerfSetFilterMaskCmd_t',
+             'CFE_ES_PerfSetTrigMaskCmd_t', 'CFE_ES_TlmPoolStatsCmd_t', 
+             'CFE_ES_DumpCDSRegCmd_t', 'CFE_ES_OneAppTlm_t', 
+             'CFE_ES_PoolStatsTlm_t', 'CFE_ES_MemHandle_t', 
+             'CFE_ES_MemPoolStats_t', 'CFE_ES_HkPacket_t', 
+             'CFE_ES_ShellPacket_t'])
 
     def insertCompletion(self, completion):
-        print "Insert Completion"
         if (self.completer.widget() != self):
             return
         tc = self.textCursor()
@@ -65,7 +79,6 @@ class CFSEdit(QtGui.QTextEdit):
                 return
 
         isShortcut = (event.modifiers() and Qt.ControlModifier and event.key() == Qt.Key_E)
-        print isShortcut
         if (not self.completer or not isShortcut):
             QtGui.QTextEdit.keyPressEvent(self, event)
         
@@ -77,7 +90,7 @@ class CFSEdit(QtGui.QTextEdit):
         hasModifier = ((event.modifiers() != Qt.NoModifier) and not ctrlOrShift)
         completionPrefix = self.textUnderCursor()
         
-        if (not isShortcut and (hasModifier or event.text().isEmpty() or completionPrefix.length() < 3 or\
+        if (not isShortcut and (hasModifier or event.text().isEmpty() or completionPrefix.length() < 1 or\
                              eow.contains(event.text().right(1)))):
             self.completer.popup().hide()
             return
@@ -187,7 +200,14 @@ class Main(QtGui.QMainWindow):
         self.generateAction.setShortcut("Ctrl+G")
         self.generateAction.triggered.connect(self.generate)
 
+        self.openmissiondirAction = QtGui.QAction(QtGui.QIcon("icons/openmissiondir.png"), 
+                                                  "Open Mission Directory",self)
+        self.openmissiondirAction.setStatusTip("Open Mission Directory")
+        self.openmissiondirAction.setShortcut("Ctrl+G")
+        self.openmissiondirAction.triggered.connect(self.openmissiondir)
+
         self.toolbar.addAction(self.generateAction)
+        self.toolbar.addAction(self.openmissiondirAction)
 
     def initFormatbar(self):
         
@@ -233,7 +253,10 @@ class Main(QtGui.QMainWindow):
         self.text.cursorPositionChanged.connect(self.cursorPosition)
         self.text.textChanged.connect(self.changed)
 
-        self.highlight = syntax.PythonHighlighter(self.text.document())
+        self.highlight = syntax.CFSHighlighter(self.text.document())
+
+        font = QtGui.QFont("Ubuntu",15,QtGui.QFont.Normal)    
+        self.text.setCurrentFont(font)
 
     def new(self):
 
@@ -248,6 +271,8 @@ class Main(QtGui.QMainWindow):
         if self.filename:
             with open(self.filename,"rt") as file:
                 self.text.setText(file.read())
+                font = QtGui.QFont("Ubuntu",15,QtGui.QFont.Normal)    
+                self.text.setCurrentFont(font)
                 self.statusbar.showMessage("Opened Mission: {}".format(self.filename))
 
     def save(self):
@@ -291,6 +316,13 @@ class Main(QtGui.QMainWindow):
         mission.parse_model()
         mission.print_model()
         mission.generate_apps()
+
+    def openmissiondir(self):
+        if (self.filename != ""):
+            path, name = os.path.split(str(self.filename))
+            os.system('xdg-open "%s"' % path)
+        else:
+            print 'No Active Mission'
 
     def cursorPosition(self):
                 

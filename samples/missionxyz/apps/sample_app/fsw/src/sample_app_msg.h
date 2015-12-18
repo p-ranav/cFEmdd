@@ -15,8 +15,8 @@
 /*
 ** sample_app command codes
 */
-#define QQ_NOOP_CC     1
-#define QQ_RESET_CC    2
+#define SAMPLE_NOOP_CC     1
+#define SAMPLE_RESET_CC    2
 
 /*************************************************************************/\
 /*
@@ -27,7 +27,7 @@ typedef struct
     uint8             TblElement1;
     uint16            TblElement2;
     uint32            TblElement3;
-} QQ_MyFirstTable_t;
+} SAMPLE_MyFirstTable_t;
 
 /*************************************************************************/
 
@@ -38,7 +38,7 @@ typedef struct
 typedef struct
 {
     uint32            DataPtFive;
-} QQ_CdsDataType_t;
+} SAMPLE_CdsDataType_t;
 
 /*************************************************************************/
 
@@ -49,7 +49,7 @@ typedef struct
 typedef struct
 {
     uint8            CmdHeader[CFS_SB_CMD_HDR_SIZE];
-} QQ_NoArgsCmd_t;
+} SAMPLE_NoArgsCmd_t;
 
 /*************************************************************************/
 #endif /* _sample_app_msg_h_ */

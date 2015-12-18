@@ -2,30 +2,31 @@
  * Sample CFS Mission Model
  * Mission: missionxyz
  */
- 
+
+// Sample_Application_2
 application sample_app
 {
   eventIDs
   {
-    QQ_INIT_INF_EID = 1;
-    QQ_NOOP_INF_EID = 2;
-    QQ_RESET_INF_EID = 3;
+    SAMPLE_INIT_INF_EID = 1;
+    SAMPLE_NOOP_INF_EID = 2;
+    SAMPLE_RESET_INF_EID = 3;
   }
 
   commandCodes
   {
-    QQ_NOOP_CC = 1;
-    QQ_RESET_CC = 2;
+    SAMPLE_NOOP_CC = 1;
+    SAMPLE_RESET_CC = 2;
   }
 
-  table msg QQ_MyFirstTable_t
+  table msg SAMPLE_MyFirstTable_t
   {
     uint8 TblElement1;
     uint16 TblElement2;
     uint32 TblElement3;
   }
 
-  critical msg QQ_CdsDataType_t
+  critical msg SAMPLE_CdsDataType_t
   {
     uint32 DataPtOne;
     uint32 DataPtTwo;
@@ -34,7 +35,7 @@ application sample_app
     uint32 DataPtFive;
   }
 
-  command msg QQ_NoArgsCmd_t
+  command msg SAMPLE_NoArgsCmd_t
   {
     uint8 CmdHeader[CFS_SB_CMD_HDR_SIZE];
   }
@@ -48,16 +49,16 @@ application sample_app
   }
 }
 
-
+// Sample_Application_2
 application sample_app_2
 {
   commandCodes
   {
-    QQ_NOOP_CC = 1;
-    QQ_RESET_CC = 2;
+    SAMPLE_NOOP_CC = 1;
+    SAMPLE_RESET_CC = 2;
   }
 
-  command msg QQ_NoArgsCmd_t
+  command msg SAMPLE_NoArgsCmd_t
   {
     uint8 CmdHeader[CFS_SB_CMD_HDR_SIZE];
   }

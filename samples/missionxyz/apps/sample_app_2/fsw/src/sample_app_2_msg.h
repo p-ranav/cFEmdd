@@ -15,8 +15,8 @@
 /*
 ** sample_app_2 command codes
 */
-#define QQ_NOOP_CC     1
-#define QQ_RESET_CC    2
+#define SAMPLE_NOOP_CC     1
+#define SAMPLE_RESET_CC    2
 
 /*************************************************************************/\
 /*
@@ -25,7 +25,7 @@
 typedef struct
 {
     uint8            CmdHeader[CFS_SB_CMD_HDR_SIZE];
-} QQ_NoArgsCmd_t;
+} SAMPLE_NoArgsCmd_t;
 
 /*************************************************************************/
 #endif /* _sample_app_2_msg_h_ */
