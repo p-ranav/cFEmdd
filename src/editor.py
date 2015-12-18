@@ -255,7 +255,8 @@ class Main(QtGui.QMainWindow):
 
         self.highlight = syntax.CFSHighlighter(self.text.document())
 
-        font = QtGui.QFont("Ubuntu",15,QtGui.QFont.Normal)    
+        font = QtGui.QFont("Ubuntu",15,QtGui.QFont.Normal) 
+        font.setLetterSpacing(QtGui.QFont.PercentageSpacing, 120)
         self.text.setCurrentFont(font)
 
     def new(self):
