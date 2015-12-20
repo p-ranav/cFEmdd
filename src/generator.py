@@ -27,6 +27,8 @@ from app_events import *
 from app_msg import *
 from app_source import *
 from app_header import *
+from app_perfids import *
+from app_msgids import *
 
 class cFE_Application_Generator:
     def generate(self, mission):
@@ -91,6 +93,58 @@ class cFE_Application_Generator:
                 temp_file.write(self.version)
 
             ###
+            ## Generating App Performance IDs Header File
+            ###
+            perfids_file = app.name + '_perfids.h'
+            perfids_length = 0
+            for key, value in app.perf_ids.items():
+                if len(key) > perfids_length:
+                    perfids_length = len(key)
+            for key, value in app.perf_ids.items():
+                space = '    '
+                for i in range(0, perfids_length - len(key)):
+                    space += ' '
+                app.perf_ids[key + space] = app.perf_ids[key]
+                del app.perf_ids[key]
+            perf_ids_list = []
+            for key, value in app.perf_ids.items():
+                perf_ids_list.append(key+value)
+            perf_namespace = {'application_name' : app.name,
+                              'perf_ids' : app.perf_ids,
+                              'dollar_id' : '$Id',
+                              'perf_ids_list' : perf_ids_list}
+            t = app_perfids(searchList=[perf_namespace])
+            self.perfids = str(t)
+            with open(os.path.join(fsw_mission_inc, perfids_file), 'w') as temp_file:
+                temp_file.write(self.perfids)
+
+            ###
+            ## Generating App Message IDs Header File
+            ###%
+            msgids_file = app.name + '_msgids.h'
+            msgids_length = 0
+            for key, value in app.msg_ids.items():
+                if len(key) > msgids_length:
+                    msgids_length = len(key)
+            for key, value in app.msg_ids.items():
+                space = '    '
+                for i in range(0, msgids_length - len(key)):
+                    space += ' '
+                app.msg_ids[key + space] = app.msg_ids[key]
+                del app.msg_ids[key]
+            msg_ids_list = []
+            for key, value in app.msg_ids.items():
+                msg_ids_list.append(key+value)
+            msg_namespace = {'application_name' : app.name,
+                             'msg_ids' : app.msg_ids,
+                             'dollar_id' : '$Id',
+                             'msg_ids_list' : msg_ids_list}
+            t = app_msgids(searchList=[msg_namespace])
+            self.msgids = str(t)
+            with open(os.path.join(fsw_platform_inc, msgids_file), 'w') as temp_file:
+                temp_file.write(self.msgids)
+
+            ###
             ## Generating App Events Header File
             ###
             events_file = app.name + '_events.h'
@@ -134,19 +188,15 @@ class cFE_Application_Generator:
 
             for msg in app.messages:
                 field_length = 0
-                for key, value in msg.fields.items():
-                    if len(key) > field_length:
-                        field_length = len(key)
-                for key, value in msg.fields.items():
+                for field in msg.fields:
+                    if len(field[0]) > field_length:
+                        field_length = len(field[0])
+                for i in range(0, len(msg.fields)):
                     space = '            '
-                    for i in range(0, field_length - len(key)):
+                    for i in range(0, field_length - len((msg.fields[i])[0])):
                         space += ' '
-                    msg.fields[key + space] = msg.fields[key]
-                    del msg.fields[key]
-            for msg in app.messages:
-                for key, value in msg.fields.items():
-                    msg.fields_list.append(key + value)
-                    
+                    msg.fields[i] = [(msg.fields[i])[0] + space, (msg.fields[i])[1]]
+
             msg_namespace = {'application_name' : app.name,
                              'command_codes' : app.command_codes,
                              'command_codes_dict' : app.command_codes.items(),

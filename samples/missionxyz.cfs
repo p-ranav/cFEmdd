@@ -3,41 +3,49 @@
  * Mission: missionxyz
  */
 
-// Sample_Application_1
+// Sample_Application
 application sample_app
 {
+  perfIDs 
+  {
+    SAMPLE_APP_PERF_ID = 91;	
+  }
+
+  msgIDs
+  {
+    SAMPLE_APP_CMD_MID = 0x1882;
+    SAMPLE_APP_SEND_HK_MID = 0x1883;
+    SAMPLE_APP_HK_TLM_MID = 0x0883;
+  }	
+
   eventIDs
   {
-    SAMPLE_INIT_INF_EID = 1;
-    SAMPLE_NOOP_INF_EID = 2;
-    SAMPLE_RESET_INF_EID = 3;
+    SAMPLE_RESERVED_EID = 0;
+    SAMPLE_STARTUP_INF_EID = 1; 
+    SAMPLE_COMMAND_ERR_EID = 2;
+    SAMPLE_COMMANDNOP_INF_EID = 3;
+    SAMPLE_COMMANDRST_INF_EID = 4;
+    SAMPLE_INVALID_MSGID_ERR_EID = 5; 
+    SAMPLE_LEN_ERR_EID = 6; 
   }
 
   commandCodes
   {
-    SAMPLE_NOOP_CC = 1;
-    SAMPLE_RESET_CC = 2;
-  }
-
-  table msg SAMPLE_MyFirstTable_t
-  {
-    uint8 TblElement1;
-    uint16 TblElement2;
-    uint32 TblElement3;
-  }
-
-  critical msg SAMPLE_CdsDataType_t
-  {
-    uint32 DataPtOne;
-    uint32 DataPtTwo;
-    uint32 DataPtThree;
-    uint32 DataPtFour;
-    uint32 DataPtFive;
+    SAMPLE_APP_NOOP_CC = 1;
+    SAMPLE_APP_RESET_COUNTERS_CC = 2;
   }
 
   command msg SAMPLE_NoArgsCmd_t
   {
     uint8 CmdHeader[CFS_SB_CMD_HDR_SIZE];
+  }
+
+  housekeeping msg OS_PACK sample_hk_tlm_t
+  {
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8 sample_command_error_count;
+    uint8 sample_command_count;
+    uint8 spare[2];
   }
 
   version
@@ -46,28 +54,5 @@ application sample_app
     SAMPLE_APP_MINOR_VERSION = 0;
     SAMPLE_APP_REVISION = 0;
     SAMPLE_APP_MISSION_REV = 0;
-  }
-}
-
-// Sample_Application_2
-application sample_app_2
-{
-  commandCodes
-  {
-    SAMPLE_NOOP_CC = 1;
-    SAMPLE_RESET_CC = 2;
-  }
-
-  command msg SAMPLE_NoArgsCmd_t
-  {
-    uint8 CmdHeader[CFS_SB_CMD_HDR_SIZE];
-  }
-
-  version
-  {
-    SAMPLE_APP_2_MAJOR_VERSION = 1;
-    SAMPLE_APP_2_MINOR_VERSION = 0;
-    SAMPLE_APP_2_REVISION = 0;
-    SAMPLE_APP_2_MISSION_REV = 0;
   }
 }

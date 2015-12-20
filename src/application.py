@@ -13,6 +13,8 @@ class cFE_Application():
         self.parent = None
         self.name = ""
         self.path = ""
+        self.perf_ids = OrderedDict()
+        self.msg_ids = OrderedDict()
         self.event_ids = OrderedDict()
         self.command_codes = OrderedDict()
         self.messages = []

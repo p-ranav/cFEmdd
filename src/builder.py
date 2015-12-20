@@ -56,6 +56,32 @@ class cFE_Application_Builder(CFS_MissionListener):
     def enterApp_name(self, ctx):
         self.application.name = ctx.getText()
 
+    def enterPerf_id(self, ctx):
+        id_name = ""
+        id_value = -1
+        for child in ctx.getChildren():
+            context = str(type(child))
+            if 'Perf_id_nameContext' in context:
+                id_name = child.getText()
+            if 'Perf_valueContext' in context:
+                id_value = child.getText()
+        if id_name != "":
+            if id_value != -1:
+                self.application.perf_ids[id_name] = id_value
+
+    def enterMsg_id(self, ctx):
+        id_name = ""
+        id_value = -1
+        for child in ctx.getChildren():
+            context = str(type(child))
+            if 'Msg_id_nameContext' in context:
+                id_name = child.getText()
+            if 'Msg_valueContext' in context:
+                id_value = child.getText()
+        if id_name != "":
+            if id_value != -1:
+                self.application.msg_ids[id_name] = id_value
+
     def enterEvent_id(self, ctx):
         id_name = ""
         id_value = -1
@@ -97,7 +123,7 @@ class cFE_Application_Builder(CFS_MissionListener):
         elif self.message.msgtype == "command":
             self.message.comment\
                 ="Type definition (generic \"no arguments\" command)"
-        elif self.message.msgtype == "hosuekeeping":
+        elif self.message.msgtype == "housekeeping":
             self.message.comment = "Type definition (housekeeping)"
         elif self.message.msgtype == "global":
             self.message.comment = "Type definition (global data)"
@@ -113,7 +139,7 @@ class cFE_Application_Builder(CFS_MissionListener):
                 fieldname = child.getText()
         if datatype != "":
             if fieldname != "":
-                self.message.fields[datatype] = fieldname
+                self.message.fields.append([datatype, fieldname])
                 
     def exitMsg(self, ctx):
         self.application.messages.append(self.message)

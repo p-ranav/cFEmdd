@@ -15,32 +15,8 @@
 /*
 ** sample_app command codes
 */
-#define SAMPLE_NOOP_CC     1
-#define SAMPLE_RESET_CC    2
-
-/*************************************************************************/\
-/*
-** Definition of Table Data Structure
-*/
-typedef struct
-{
-    uint8             TblElement1;
-    uint16            TblElement2;
-    uint32            TblElement3;
-} SAMPLE_MyFirstTable_t;
-
-/*************************************************************************/
-
-/*************************************************************************/\
-/*
-** Type definition Critical Data Store
-*/
-typedef struct
-{
-    uint32            DataPtFive;
-} SAMPLE_CdsDataType_t;
-
-/*************************************************************************/
+#define SAMPLE_APP_NOOP_CC              1
+#define SAMPLE_APP_RESET_COUNTERS_CC    2
 
 /*************************************************************************/\
 /*
@@ -50,6 +26,20 @@ typedef struct
 {
     uint8            CmdHeader[CFS_SB_CMD_HDR_SIZE];
 } SAMPLE_NoArgsCmd_t;
+
+/*************************************************************************/
+
+/*************************************************************************/\
+/*
+** Type definition (housekeeping)
+*/
+typedef struct
+{
+    uint8            TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8            sample_command_error_count;
+    uint8            sample_command_count;
+    uint8            spare[2];
+} OS_PACK sample_hk_tlm_t;
 
 /*************************************************************************/
 #endif /* _sample_app_msg_h_ */

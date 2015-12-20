@@ -66,7 +66,8 @@ class CFSEdit(QtGui.QTextEdit):
         self.model = QtGui.QStringListModel()
         self.completer.setModel(self.model)
         self.model.setStringList(
-            ["application", "eventIDs", "commandCodes", "msg", "table", "version" 
+            ["application", "eventIDs", "commandCodes", "msg", "table", "version", 
+             'perfIDs', 'msgIDs', 'critical', 'command', 'housekeeping', 'global',
              'uint8', 'uint16', 'uint32', 'uint64', 'char'
              'CFE_ES_NoArgsCmd_t', 'CFE_ES_RestartCmd_t', 
              'CFE_ES_ShellCmd_t', 'CFE_ES_QueryAllCmd_t', 
@@ -132,7 +133,7 @@ class CFSEdit(QtGui.QTextEdit):
         hasModifier = ((event.modifiers() != Qt.NoModifier) and not ctrlOrShift)
         completionPrefix = self.textUnderCursor()
         
-        if (not isShortcut and (hasModifier or event.text().isEmpty() or completionPrefix.length() < 1 or\
+        if (not isShortcut and (hasModifier or event.text().isEmpty() or completionPrefix.length() <= 1 or\
                              eow.contains(event.text().right(1)))):
             self.completer.popup().hide()
             return
@@ -290,7 +291,6 @@ class Main(QtGui.QMainWindow):
         self.setGeometry(100,100,1920,1080)
         
         self.setWindowTitle("CFSEditor")
-        self.text.setTabStopWidth(33)
         self.setWindowIcon(QtGui.QIcon("icons/cfs-editor.png"))
         self.text.cursorPositionChanged.connect(self.cursorPosition)
         self.text.textChanged.connect(self.changed)
@@ -324,6 +324,10 @@ class Main(QtGui.QMainWindow):
         layout.addWidget(self.console)
         XStream.stdout().messageWritten.connect(self.console.insertPlainText)
         XStream.stderr().messageWritten.connect(self.console.insertPlainText)
+
+        tabStop = 2
+        metrics = QtGui.QFontMetrics(font)
+        self.text.setTabStopWidth(tabStop * metrics.width(' '))
 
     def new(self):
 

@@ -42,6 +42,7 @@ class CFSHighlighter (QSyntaxHighlighter):
     # CFS Mission keywords
     keywords = [
         'application', 'eventIDs', 'commandCodes', 'msg', 'version',
+        'perfIDs', 'msgIDs', 
         'and', 'assert', 'break', 'class', 'continue', 'def',
         'del', 'elif', 'else', 'except', 'exec', 'finally',
         'for', 'from', 'global', 'if', 'import', 'in',
