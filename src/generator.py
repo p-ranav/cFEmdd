@@ -29,11 +29,45 @@ from app_source import *
 from app_header import *
 from app_perfids import *
 from app_msgids import *
+from cpu1_Makefile import *
+from cpu1_cfe_es_startup import *
+from app_Makefile import *
 
 class cFE_Application_Generator:
     def generate(self, mission):
         self.mission_home = mission.mission_home
         self.apps_dir = os.path.join(self.mission_home, 'apps')
+        self.build_dir = os.path.join(self.mission_home, 'build')
+        self.cpu1_dir = os.path.join(self.build_dir, 'cpu1')
+        apps_list = []
+        for app in mission.apps:
+            apps_list.append(app.name)
+        # Generate cpu1 Makefile
+        makefile_namespace = {'apps' : apps_list}
+        t = cpu1_Makefile(searchList=[makefile_namespace])
+        self.cpu1_makefile = str(t)
+        with open(os.path.join(self.cpu1_dir, 'Makefile'), 'w') as temp_file:
+            temp_file.write(self.cpu1_makefile)
+
+        # Generate cpu1 cfe_es_startup.scr
+        cfe_es_startup_namespace = {'apps' : apps_list}
+        t = cpu1_cfe_es_startup(searchList=[cfe_es_startup_namespace])
+        self.cpu1_cfe_es_startup = str(t)
+        self.cpu1_exe = os.path.join(self.cpu1_dir, 'exe')
+        with open(os.path.join(self.cpu1_exe, 'cfe_es_startup.scr'), 'w') as temp_file:
+            temp_file.write(self.cpu1_cfe_es_startup)
+
+        for app in mission.apps:
+            app_makefile_dir = os.path.join(self.cpu1_dir, app.name)
+            if not os.path.exists(app_makefile_dir):
+                os.makedirs(app_makefile_dir)
+            app_makefile_namespace = {'application_name' : app.name, 
+                                      'application_name_caps' : app.name.upper()}
+            t = app_Makefile(searchList=[app_makefile_namespace])
+            self.app_makefile = str(t)
+            with open(os.path.join(app_makefile_dir, "Makefile"), 'w') as temp_file:
+                temp_file.write(self.app_makefile)
+        
         for app in mission.apps:
             app_home = os.path.join(self.apps_dir, app.name)
             if not os.path.exists(app_home):
@@ -209,10 +243,18 @@ class cFE_Application_Generator:
             ###
             ## Generating App Source File
             ###
+            msgids_list = []
+            for key, value in app.msg_ids.items():
+                msgids_list.append(key)
+            cc_list = []
+            for key, value in app.command_codes.items():
+                cc_list.append(key)
             app_name_caps = app.name.upper()
             c_file = app.name + '.c'
             c_namespace = {'application_name' : app.name,
-                           'application_name_caps' : app_name_caps}
+                           'application_name_caps' : app_name_caps,
+                           'msgids' : msgids_list, 
+                           'cmdcodes' : cc_list}
             t = app_source(searchList=[c_namespace])
             self.c = str(t)
             with open(os.path.join(fsw_src, c_file), 'w') as temp_file:

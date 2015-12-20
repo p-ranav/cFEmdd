@@ -37,7 +37,7 @@ application sample_app
 
   command msg SAMPLE_NoArgsCmd_t
   {
-    uint8 CmdHeader[CFS_SB_CMD_HDR_SIZE];
+    uint8 CmdHeader[50];
   }
 
   housekeeping msg OS_PACK sample_hk_tlm_t

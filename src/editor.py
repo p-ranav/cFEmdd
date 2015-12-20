@@ -310,11 +310,11 @@ class Main(QtGui.QMainWindow):
         # XTERM WIDGET
         self.process = QtCore.QProcess(self)
         self.terminal = QtGui.QWidget(self)
-        self.terminal.setGeometry(10, 650, 1855, 280)
+        self.terminal.setGeometry(10, 650, 1855, 380)
         layout.addWidget(self.terminal)
         self.process.start(
                 'xterm',['-into', str(self.terminal.winId()), 
-                         '-geometry', '1855x300+10+10', 
+                         '-geometry', '1855x380+10+10', 
                          '-fa', 'Monospace', '-fs', '10'])
 
         # CONSOLE WIDGET
