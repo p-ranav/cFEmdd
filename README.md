@@ -38,7 +38,7 @@ $ python editor.py
 ```
 
 Open & Edit CFS Mission Models
------------------------
+------------------------------
 
 ![Alt text](https://github.com/pranav-srinivas-kumar/cFEmdd/blob/master/screenshots/open_models.png?raw=true "Open Mission Models")
 
