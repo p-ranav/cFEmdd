@@ -60,4 +60,6 @@ $ sudo -s
 $ ./core-linux.bin
 ```
 
+![Alt text](https://github.com/pranav-srinivas-kumar/cFEmdd/blob/master/screenshots/build_and_execute.png?raw=true "Execute Application")
+
 For more details on cFE application development, refer to cfe-OSS-readme.txt in MISSION_HOME
