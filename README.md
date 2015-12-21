@@ -60,4 +60,4 @@ $ sudo -s
 $ ./core-linux.bin
 ```
 
-For more details on cFE application development, refer to cfe-OSS-readme.txt in <MISSION_HOME>
+For more details on cFE application development, refer to cfe-OSS-readme.txt in MISSION_HOME
