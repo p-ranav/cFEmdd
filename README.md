@@ -1,5 +1,5 @@
 # cFEmdd
-Model-driven Development for the Core Flight Executive (cFE)
+Model-driven Development for the NASA Core Flight Executive (cFE)
 
 Quick-Start Developer's Guide
 =============================
@@ -23,4 +23,41 @@ $ cd Cheetah-2.4.4
 $ sudo python setup.py install
 ```
 
+Quick-Start User's Guide
+========================
 
+Install Dependencies
+--------------------
+1. Cheetah Templating Engine
+
+Start CFSEditor
+---------------
+```bash
+$ cd cFEmdd/src
+$ python editor.py
+```
+
+Open & Edit CFS Mission Models
+-----------------------
+
+![Alt text](https://github.com/pranav-srinivas-kumar/cFEmdd/blob/master/screenshots/open_models.png?raw=true "Open Mission Models")
+
+Generate Mission Directory
+--------------------------
+
+![Alt text](https://github.com/pranav-srinivas-kumar/cFEmdd/blob/master/screenshots/generate_mission.png?raw=true "Generate Mission Directory")
+
+Build and Execute Applications
+------------------------------
+```bash
+$ cd <MISSION_HOME>
+$ . ./setvars.sh
+$ cd build/cpu1
+$ make config
+$ make
+$ cd exe
+$ sudo -s
+$ ./core-linux.bin
+```
+
+For more details on cFE application development, refer to cfe-OSS-readme.txt in <MISSION_HOME>
